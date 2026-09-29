@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f4ee">
+<title>About — Kiki Ogino</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <span class="brand">Kiki Ogino</span>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="page">
+  <h1>About</h1>
+  <img id="portrait" class="portrait" src="" alt="Portrait of Kiki Ogino">
+  <p>Kiki Ogino paints quiet interiors — attics, salons, bedrooms, kitchens — places where
+  light settles and nothing much happens. The work favors stillness over drama, and is
+  built up slowly, in thin layers, over many sittings.</p>
+  <p>Based between the studio and wherever the next room of light happens to be, Kiki
+  shows work occasionally and takes on a small number of commissions each year. Get in
+  touch through the contact page.</p>
+</div>
+
+<script src="js/data.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('portrait').src = placeholder(900, 400, 500, 'Portrait');
+});
+</script>
+</body>
+</html>
