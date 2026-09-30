@@ -55,74 +55,73 @@ function placeholder(seed, w, h, label) {
   return 'data:image/svg+xml,' + encodeURIComponent(svg);
 }
 
-function painting(n, title, year, medium, size, w, h, description) {
-  return {
-    id: n,
-    title: title,
-    year: year,
-    medium: medium,
-    size: size,
-    w: w,
-    h: h,
-    ratio: w + ' / ' + h,
-    src: placeholder(n, w, h, title),
-    description: description
-  };
-}
+// ---------------------------------------------------------------------
+// "Tables" — flat row data, shaped like what a future fetch()/CSV/sheet
+// read would return. COLLECTIONS below is assembled from these two.
+// To swap in a real data source later, replace these two arrays with
+// the equivalent rows (e.g. fetched JSON) and keep the same field names.
+// ---------------------------------------------------------------------
 
-var COLLECTIONS = [
-  {
-    id: 'attic',
-    title: 'The Attic',
-    note: 'dusty light, old things',
-    paintings: [
-      painting(1, 'Untitled I', 2024, 'Oil on canvas', '40 × 50 cm', 400, 500,
-        'Light through a round window, caught on a stack of forgotten boxes.'),
-      painting(2, 'Trunk', 2024, 'Oil on canvas', '50 × 50 cm', 450, 450,
-        'An old travel trunk, half-open, its contents left to the imagination.'),
-      painting(3, 'Skylight', 2023, 'Acrylic on panel', '60 × 45 cm', 500, 400,
-        'Dust turning slowly in a shaft of afternoon sun.')
-    ]
-  },
-  {
-    id: 'salon',
-    title: 'The Salon',
-    note: 'conversations and chairs',
-    paintings: [
-      painting(4, 'Sitting Room', 2023, 'Oil on canvas', '45 × 60 cm', 450, 600,
-        'Two armchairs angled toward each other, mid-conversation.'),
-      painting(5, 'Two Chairs', 2022, 'Oil on linen', '50 × 40 cm', 500, 400,
-        'A study of negative space between a pair of wingback chairs.'),
-      painting(6, 'Afternoon Tea', 2023, 'Gouache on paper', '40 × 40 cm', 400, 400,
-        'Porcelain and steam, painted quickly before the tea went cold.'),
-      painting(7, 'The Curtain', 2024, 'Oil on canvas', '48 × 60 cm', 480, 600,
-        'Heavy drapery catching the last of the evening light.')
-    ]
-  },
-  {
-    id: 'bedroom',
-    title: 'The Bedroom',
-    note: 'quiet mornings',
-    paintings: [
-      painting(8, 'Unmade', 2022, 'Oil on canvas', '45 × 60 cm', 450, 600,
-        'Sheets still holding the shape of sleep.'),
-      painting(9, 'Window Seat', 2023, 'Oil on canvas', '60 × 45 cm', 600, 450,
-        'A cushion worn soft by years of morning light.'),
-      painting(10, 'Lamp', 2024, 'Acrylic on panel', '35 × 35 cm', 350, 350,
-        'A small study of warm light against a cool room.')
-    ]
-  },
-  {
-    id: 'kitchen',
-    title: 'The Kitchen',
-    note: 'fruit, bread, steam',
-    paintings: [
-      painting(11, 'Pears', 2023, 'Oil on panel', '30 × 30 cm', 300, 300,
-        'Three pears, slightly overripe, arranged without much thought.'),
-      painting(12, 'Bread Board', 2022, 'Oil on canvas', '50 × 40 cm', 500, 400,
-        'Crumbs and a knife, left exactly where they fell.'),
-      painting(13, 'Kettle', 2024, 'Oil on canvas', '40 × 50 cm', 400, 500,
-        'Steam rising in a thin, unsteady line.')
-    ]
-  }
+var COLLECTIONS_TABLE = [
+  { id: 'attic', title: 'The Attic', note: 'dusty light, old things' },
+  { id: 'salon', title: 'The Salon', note: 'conversations and chairs' },
+  { id: 'bedroom', title: 'The Bedroom', note: 'quiet mornings' },
+  { id: 'kitchen', title: 'The Kitchen', note: 'fruit, bread, steam' }
 ];
+
+// src is optional — leave blank/omit to auto-generate a placeholder image.
+var PAINTINGS_TABLE = [
+  { id: 1, collection: 'attic', title: 'Untitled I', year: 2024, medium: 'Oil on canvas', size: '40 × 50 cm', w: 400, h: 500, src: '',
+    description: 'Light through a round window, caught on a stack of forgotten boxes.' },
+  { id: 2, collection: 'attic', title: 'Trunk', year: 2024, medium: 'Oil on canvas', size: '50 × 50 cm', w: 450, h: 450, src: '',
+    description: 'An old travel trunk, half-open, its contents left to the imagination.' },
+  { id: 3, collection: 'attic', title: 'Skylight', year: 2023, medium: 'Acrylic on panel', size: '60 × 45 cm', w: 500, h: 400, src: '',
+    description: 'Dust turning slowly in a shaft of afternoon sun.' },
+
+  { id: 4, collection: 'salon', title: 'Sitting Room', year: 2023, medium: 'Oil on canvas', size: '45 × 60 cm', w: 450, h: 600, src: '',
+    description: 'Two armchairs angled toward each other, mid-conversation.' },
+  { id: 5, collection: 'salon', title: 'Two Chairs', year: 2022, medium: 'Oil on linen', size: '50 × 40 cm', w: 500, h: 400, src: '',
+    description: 'A study of negative space between a pair of wingback chairs.' },
+  { id: 6, collection: 'salon', title: 'Afternoon Tea', year: 2023, medium: 'Gouache on paper', size: '40 × 40 cm', w: 400, h: 400, src: '',
+    description: 'Porcelain and steam, painted quickly before the tea went cold.' },
+  { id: 7, collection: 'salon', title: 'The Curtain', year: 2024, medium: 'Oil on canvas', size: '48 × 60 cm', w: 480, h: 600, src: '',
+    description: 'Heavy drapery catching the last of the evening light.' },
+
+  { id: 8, collection: 'bedroom', title: 'Unmade', year: 2022, medium: 'Oil on canvas', size: '45 × 60 cm', w: 450, h: 600, src: '',
+    description: 'Sheets still holding the shape of sleep.' },
+  { id: 9, collection: 'bedroom', title: 'Window Seat', year: 2023, medium: 'Oil on canvas', size: '60 × 45 cm', w: 600, h: 450, src: '',
+    description: 'A cushion worn soft by years of morning light.' },
+  { id: 10, collection: 'bedroom', title: 'Lamp', year: 2024, medium: 'Acrylic on panel', size: '35 × 35 cm', w: 350, h: 350, src: '',
+    description: 'A small study of warm light against a cool room.' },
+
+  { id: 11, collection: 'kitchen', title: 'Pears', year: 2023, medium: 'Oil on panel', size: '30 × 30 cm', w: 300, h: 300, src: '',
+    description: 'Three pears, slightly overripe, arranged without much thought.' },
+  { id: 12, collection: 'kitchen', title: 'Bread Board', year: 2022, medium: 'Oil on canvas', size: '50 × 40 cm', w: 500, h: 400, src: '',
+    description: 'Crumbs and a knife, left exactly where they fell.' },
+  { id: 13, collection: 'kitchen', title: 'Kettle', year: 2024, medium: 'Oil on canvas', size: '40 × 50 cm', w: 400, h: 500, src: '',
+    description: 'Steam rising in a thin, unsteady line.' }
+];
+
+// Assemble COLLECTIONS (what the rest of the site consumes) from the tables above.
+var COLLECTIONS = COLLECTIONS_TABLE.map(function (col) {
+  return {
+    id: col.id,
+    title: col.title,
+    note: col.note,
+    paintings: PAINTINGS_TABLE.filter(function (row) { return row.collection === col.id; })
+      .map(function (row) {
+        return {
+          id: row.id,
+          title: row.title,
+          year: row.year,
+          medium: row.medium,
+          size: row.size,
+          w: row.w,
+          h: row.h,
+          ratio: row.w + ' / ' + row.h,
+          src: row.src ? row.src : placeholder(row.id, row.w, row.h, row.title),
+          description: row.description
+        };
+      })
+  };
+});
